@@ -1,1 +1,1 @@
-# eShop-Frontend-React-Tailwind
+# ecommerce-shop-starter
