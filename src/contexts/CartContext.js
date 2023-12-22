@@ -6,6 +6,24 @@ const CartProvider = ({children}) => {
 
   const [cartItems, setCartItems] = useState([]);
 
+  const [totalItems, setTotalItems] = useState(0);
+
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const newTotalAmount = cartItems.reduce((total, item) => {
+      return (total += item.price * item.amount);
+    }, 0);
+    setTotalAmount(parseFloat(newTotalAmount.toFixed(2)));
+  }, [cartItems]);
+
+  useEffect(() => {
+    const newTotalItems = cartItems.reduce((total, item) => {
+      return (total += item.amount);
+    }, 0);
+    setTotalItems(newTotalItems);
+  }, [cartItems]);
+
   const addToCart = (product, id) => {
     const newItem = {...product , amount:1 };
     const cartItem = cartItems.find((item) => item.id === id);
@@ -53,7 +71,7 @@ const CartProvider = ({children}) => {
     }
   };
 
-  return <CartContext.Provider value={{cartItems,addToCart , removecartItem , clearCart , inceasedItem ,decreasedItem}}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{cartItems,addToCart , removecartItem , clearCart , inceasedItem ,decreasedItem , totalItems , totalAmount}}>{children}</CartContext.Provider>;
 };
 
 export default CartProvider;
